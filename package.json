@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/HugeREZ/BOT#readme",
   "dependencies": {
-    "discord.js": "^11.4.2"
+    "discord.js": "^11.4.2",
+    "enmap": "^4.8.1"
   }
 }

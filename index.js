@@ -1,10 +1,60 @@
 const Discord = require("discord.js");
 const kes = new Discord.Client();
+const Enmap = require("enmap");
+const fs = require("fs");
 const config = require("./config.json");
 const { Client, Attachment } = require('discord.js');
+kes.login(config.token);
+kes.config = config;
 
+//--
+
+fs.readdir("./events/", (err, files)=>{
+  if (err) return console.error(err);
+  files.forEach(file=>{
+    const event = require('./events/message.js');
+    let eventName = file.split(".")[0];
+    kes.on(eventName, event.bind(null, kes));
+  });
+});
+
+kes.commands = new Enmap();
+
+fs.readdir("./commands/", (err, files) => {
+  if (err) return console.error(err);
+  files.forEach(file => {
+    if (!file.endsWith(".js")) return;
+    let props = require(`./commands/message.js`);
+    let commandName = file.split(".")[0];
+    console.log(`Attempting to load command ${commandName}`);
+    kes.commands.set(commandName, props);
+  });
+});
 
 kes.login(config.token);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//--
+
+
+
 
 kes.on("ready", () => {
     console.log("I am ready!");
@@ -26,10 +76,10 @@ kes.on("message",(message)=>{
     const attachment = new Attachment('https://pp.userapi.com/c851120/v851120505/39ccd/roAwnweg_1E.jpg');
   
     message.reply('I have this command now: ' 
-                    + '\n //Darova(just hello)'
-                    + '\n //hugerez(avtor link)'
-                    + '\n //ping(u real ping)'
-                    + '\n //server(can show how much people sitting here)'
+                    + '\n //Darova (just hello)'
+                    + '\n //hugerez (avtor link)'
+                    + '\n //ping (u real ping)'
+                    + '\n //server (can show how much people sitting here)'
                     ); 
     message.channel.send(attachment);                               
   }
@@ -44,7 +94,7 @@ kes.on("message",(message)=>{
       
     message.reply("Ссылки на автора =3");
     message.reply("YOUTUBE: https://www.youtube.com/channel/UCVikmm94xXIKc3MV_3L-yxw?view_as=subscriber"  
-                     + "\nINSTAGRAM: https://www.instagram.com/vladveb/"
+                     + "\nINSTAGRAM: https://www.instagram.com/hugerez/"
                      + "\nPATREON:  https://www.patreon.com/kesshite"
                      + "\nTWITCH: https://www.twitch.tv/nobodyxt");
       //message.reply("INSTAGRAM: https://www.instagram.com/vladveb/");
